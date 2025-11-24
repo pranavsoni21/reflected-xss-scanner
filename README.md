@@ -1,7 +1,6 @@
 # Reflected XSS Scanner (Python)
 
-This project is a **Reflected XSS Scanner** built for the VipraTech Labs assignment.
-It detects reflections across three injection contexts using dynamically generated payloads.
+This project is a Reflected XSS Scanner which detects reflections across three injection contexts using dynamically generated payloads.
 
 ---
 
@@ -9,17 +8,17 @@ It detects reflections across three injection contexts using dynamically generat
 
 This scanner:
 
-* Takes a **target URL** and **list of parameters**
-* Injects context-specific payloads using a **PayloadGenerator**
-* Sends **GET or POST** requests
+* Takes a target URL and list of parameters
+* Injects context-specific payloads using a PayloadGenerator
+* Sends GET or POST requests
 * Detects whether payloads are reflected in the response
 * Classifies reflections into:
 
-  * **attribute-name**
-  * **attribute-value**
-  * **text-node**
-  * **script detection** 
-* Outputs a simple **terminal report** or **HTML report**
+  * attribute-name
+  * attribute-value
+  * text-node
+  * script  
+* Outputs a simple terminal report or HTML report
 
 ---
 
@@ -56,11 +55,14 @@ Since the assignment spec was intentionally sparse, the following assumptions we
 ```
 reflected-xss-scanner/
 │
-├── scanner.py       # Main runner (CLI)
+├── scanner.py       # Main runner 
 ├── payloads.py      # PayloadGenerator (context-aware)
 ├── detector.py      # Reflection detection + context classification
 ├── injector.py      # GET/POST + param-name injection
+├── README.md        # Project's readme file
+├── requirements.txt # Library packages essential to run the scanner
 └── reporter.py      # Terminal + HTML report output
+
 ```
 
 A small vulnerable Flask test server is included (optional) under `tests/local_test_app.py` to manually verify reflections.
@@ -87,7 +89,7 @@ PAY_xxxxxx      <-- token itself
 
 ### **attribute-value**
 
-Goal: break or reflect inside HTML attribute values.
+Used to break or reflect inside HTML attribute values.
 
 Payloads:
 
@@ -113,7 +115,7 @@ All payloads include a **unique token** such as `PAY_ab12cd` so reflection detec
 
 Detection uses:
 
-1. **Simple substring presence check**
+1. Simple substring presence check
    If token not in response → no reflection.
 
 2. If token exists, classification is performed:
@@ -153,7 +155,7 @@ source venv/bin/activate
 Install dependencies:
 
 ```bash
-pip install requests beautifulsoup4
+pip install -r requirements.txt
 ```
 
 (Optional) Run local test server:
@@ -199,11 +201,11 @@ Output from scanning `http://127.0.0.1:5000/reflect_all`:
 Example snippet:
 
 ```
-Context: script
-Snippet:
-var REF = {
-  "q": "<img src=x onerror=alert("PAY_xyz")>"
-};
+URL: http://127.0.0.1:5000/reflect_all?dummy=PAY_lgagv8
+Param: dummy
+Payload: PAY_lgagv8
+Context: attribute-value
+Snippet: <div dummy="PAY_lgagv8">attr-name -&gt; dummy=PAY_lgagv8</div>
 ```
 
 These demonstrate all three required contexts are detected correctly.
@@ -251,3 +253,4 @@ These demonstrate all three required contexts are detected correctly.
 Submitted by: **Pranav Soni**
 
 ---
+
