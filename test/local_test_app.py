@@ -1,24 +1,3 @@
-# local_test_app.py
-"""
-Tiny Flask app to test the Reflected XSS scanner.
-Do NOT run this on a public server. For local testing only.
-
-Endpoints:
-  GET /reflect_attr_name?PAYLD_xxx=1
-    - Reflects the *parameter NAMES* as attribute names in the returned HTML.
-
-  GET /reflect_attr_value?q=PAYLD_xxx
-    - Reflects parameter values inside attribute values.
-
-  GET /reflect_text?q=PAYLD_xxx
-    - Reflects parameter values inside normal text nodes.
-
-  GET /reflect_script?q=PAYLD_xxx
-    - Reflects parameter values inside a <script> block.
-
-  GET /reflect_all?q=...&PAYLD_xxx=1
-    - Shows all contexts on one page (useful for quick testing).
-"""
 from flask import Flask, request, Response
 from markupsafe import Markup
 
@@ -47,7 +26,7 @@ def reflect_attr_name():
     Example output (if query contains ?PAYLD_abc=1):
       <div PAYLD_abc="1">Attribute-name test</div>
     """
-    # Danger: intentionally rendering attribute names without escaping to simulate vulnerable app.
+    # intentionally rendering attribute names without escaping to simulate vulnerable app.
     parts = []
     for key, val in request.args.items():
         # create a tag that has the param name as attribute name
